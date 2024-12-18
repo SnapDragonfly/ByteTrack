@@ -53,6 +53,9 @@ public:
      */
     NvMOTStatus removeStream(const NvMOTStreamId streamIdMask);
 
+	NvMOTStatus retrieveMiscData(const NvMOTProcessParams *params,
+                                 NvMOTTrackerMiscData *pTrackerMiscData);
+
 protected:
 
     /**

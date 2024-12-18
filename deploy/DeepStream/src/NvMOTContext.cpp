@@ -36,7 +36,7 @@ NvMOTStatus NvMOTContext::processFrame(const NvMOTProcessParams *params, NvMOTTr
             std::vector<float> tlwh        = sTrack.original_tlwh;
             NvMOTRect          motRect{tlwh[0], tlwh[1], tlwh[2], tlwh[3]};
             NvMOTTrackedObj    *trackedObj             = new NvMOTTrackedObj;
-            trackedObj->classId                        = 0;
+            trackedObj->classId                        = sTrack.label;
             trackedObj->trackingId                     = (uint64_t) sTrack.track_id;
             trackedObj->bbox                           = motRect;
             trackedObj->confidence                     = 1;
@@ -67,3 +67,11 @@ NvMOTStatus NvMOTContext::removeStream(const NvMOTStreamId streamIdMask) {
     }
     return NvMOTStatus_OK;
 }
+
+
+NvMOTStatus NvMOTContext::retrieveMiscData(const NvMOTProcessParams *params,
+                                             NvMOTTrackerMiscData *pTrackerMiscData)
+{
+	return NvMOTStatus_OK;
+}
+
