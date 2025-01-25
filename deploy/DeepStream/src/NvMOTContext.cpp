@@ -55,10 +55,21 @@ NvMOTStatus NvMOTContext::processFrame(const NvMOTProcessParams *params, NvMOTTr
     }
 }
 
+#if defined(NVDS_VERSION_MAJOR) && defined(NVDS_VERSION_MINOR)
+#if NVDS_VERSION_MAJOR == 7 && NVDS_VERSION_MINOR == 1
+    #pragma message("API no required for DeepStream 7.1")
+#elif NVDS_VERSION_MAJOR == 6 && NVDS_VERSION_MINOR == 3
 NvMOTStatus NvMOTContext::processFramePast(const NvMOTProcessParams *params,
                                            NvDsPastFrameObjBatch *pPastFrameObjectsBatch) {
     return NvMOTStatus_OK;
 }
+#else
+    #error "Unsupported DeepStream version"
+#endif
+#else
+    #error "NVDS_VERSION_MAJOR or NVDS_VERSION_MINOR not defined"
+#endif
+
 
 NvMOTStatus NvMOTContext::removeStream(const NvMOTStreamId streamIdMask) {
     if (byteTrackerMap.find(streamIdMask) != byteTrackerMap.end()){

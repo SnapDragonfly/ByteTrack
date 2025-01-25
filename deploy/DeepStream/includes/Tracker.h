@@ -5,6 +5,7 @@
 #ifndef DNSTARPROD_TRACKER_H
 #define DNSTARPROD_TRACKER_H
 
+#include "nvds_version.h"
 #include "nvdstracker.h"
 #include "BYTETracker.h"
 #include <memory>
@@ -33,6 +34,11 @@ public:
     NvMOTStatus processFrame(const NvMOTProcessParams *params,
                              NvMOTTrackedObjBatch *pTrackedObjectsBatch);
 
+
+#if defined(NVDS_VERSION_MAJOR) && defined(NVDS_VERSION_MINOR)
+#if NVDS_VERSION_MAJOR == 7 && NVDS_VERSION_MINOR == 1
+    #pragma message("API no required for DeepStream 7.1")
+#elif NVDS_VERSION_MAJOR == 6 && NVDS_VERSION_MINOR == 3
     /**
      * @brief Output the past-frame data if there are
      *
@@ -43,6 +49,12 @@ public:
      */
     NvMOTStatus processFramePast(const NvMOTProcessParams *params,
                                  NvDsPastFrameObjBatch *pPastFrameObjectsBatch);
+#else
+    #error "Unsupported DeepStream version"
+#endif
+#else
+    #error "NVDS_VERSION_MAJOR or NVDS_VERSION_MINOR not defined"
+#endif
 
     /**
      * @brief Terminate trackers and release resources for a stream when the stream is removed
